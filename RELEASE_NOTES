@@ -1,0 +1,611 @@
+Release Notes - SINGA - Version singa-3.3.0
+
+SINGA is a distributed deep learning library.
+
+This release includes following changes:
+
+  * New examples:
+    * Add one CNN example for the BloodMnist dataset, a sub set of MedMNIST.
+    * Add one example for the medical image analysis.
+
+  * Enhance distributed training
+    * Add key information printing, e.g., throughput and communication time, for distributed training.
+    * Optimize printing and logging modules for faster distributed training.
+
+  * Enhance example code
+    * Add more datasets and model implementations for the cifar_distributed_cnn example.
+    * Update the running script for the cifar_distributed_cnn example to include more models.
+    * Update the dataset path for the largedataset_cnn example for more flexibility.
+    * Add more model implementations for the largedataset_cnn example.
+
+  * Enhance the webpage
+    * Reconstruct the singa webpage to include project features.
+    * Update the Git web site by deploying it via .asf.yaml.
+    * Update the Chinese and Vietnamese documentations.
+
+  * Debug and add assertions for input tensor data types in the opt.py.
+
+  * Change pointer type to void for generalizing data types.
+
+  * Fix bugs
+    * Fix the python test error due to operations not implemented for some data types.
+    * Fix the model of pad from bytes to str.
+
+----------------------------------------------------------------------------------------------
+
+Release Notes - SINGA - Version singa-3.2.0
+
+SINGA is a distributed deep learning library.
+
+This release includes following changes:
+
+  * New examples:
+    * Add one cifar-10 distributed CNN example for benchmarking the performance of the distributed
+      training.
+    * Add one large CNN example for training with a dataset from the filesysetm.
+
+  * Enhance distributed training
+    * Improve the data augmentation module for faster distributed training.
+    * Add device synchronization for more accurate time measurements during the distributed training.
+
+  * Add Support for half-precision floating-point format (fp16) in deep learning models and 
+    computational kernels.
+
+  * Update new onnx APIs and fix onnx examples accordingly, namely, DenseNet121, ShuffleNetv1, 
+    ShuffleNetv2, SqueezeNet, VGG19.
+
+  * Add a new method to resize images by given width and height.
+
+  * Use docusaurus versioning to simplify the process of generating the project homepage.
+
+  * Promote code quality
+    * Unify the formats of docstrings that describe the contents and usage of the module.
+    * Unify the parameters of command-line arguments.
+
+  * Fix bugs
+    * Fix the CI build error by downloading the tbb binaries.
+    * Add disabling graph option for accessing parameter or gradient tensors during distributed  
+      training.
+    * Solve the warnings of deprecated functions in the distributed optimizer module.
+
+----------------------------------------------------------------------------------------------
+
+Release Notes - SINGA - Version singa-3.1.0
+
+SINGA is a distributed deep learning library.
+
+This release includes following changes:
+
+  * Tensor core:
+    * Support tensor transformation (reshape, transpose) for tensors up to 6 dimensions.
+    * Implement traverse_unary_transform in Cuda backend, which is similar to CPP backend one.
+
+  * Add new tensor operators into the autograd module, including
+    CosSim, DepthToSpace, Embedding, Erf, Expand, Floor, Pad, Round, Rounde, SpaceToDepth, UpSample, Where. 
+    The corresponding ONNX operators are thus supported by SINGA.
+
+  * Add Embedding and Gemm into the layer module.
+
+  * Add SGD operators to opt module, including RMSProp, Adam, and AdaGrad.
+
+  * Extend the sonnx module to support 
+    DenseNet121, ShuffleNetv1, ShuffleNetv2, SqueezeNet, VGG19, GPT2, and RoBERTa,
+
+  * Reconstruct sonnx to 
+    * Support creating operators from both layer and autograd.
+    * Re-write SingaRep to provide a more powerful intermediate representation of SINGA.
+    * Add a SONNXModel which implements from Model to provide uniform API and features.
+
+  * Add one example that trains a BiLSTM model over the InsuranceQA data.
+
+  * Replace the Travis CI with Github workflow. Add quality and coverage management.
+
+  * Add compiling and packaging scripts to creat wheel packages for distribution.
+
+  * Fix bugs
+    * Fix IMDB LSTM model example training script.
+    * Fix Tensor operation Mult on Broadcasting use cases.
+    * Gaussian function on Tensor now can run on Tensor with odd size.
+    * Updated a testing helper function gradients() in autograd to lookup param gradient by param python object id for testing purpose.
+
+
+----------------------------------------------------------------------------------------------
+
+Release Notes - SINGA - Version singa-3.0.0
+
+SINGA is a distributed deep learning library.
+
+This release includes following changes:
+
+  * Code quality has been promoted by introducing linting check in CI and auto code formatter. 
+    For linting, the tools, `cpplint` and `pylint`, are used and configured to comply 
+    [google coding styles](http://google.github.io/styleguide/)  details in `tool/linting/`. 
+    Similarly, formatting tools, `clang-format` and `yapf` configured with google coding styles, 
+    are the recommended one for developers to clean code before submitting changes, 
+    details in `tool/code-format/`. [LGTM](https://lgtm.com) is enabled on Github for 
+    code quality check; License check is also enabled.
+
+ * New Tensor APIs are added for naming consistency, and feature enhancement: 
+   - size(), mem_size(), get_value(), to_proto(), l1(), l2(): added for the sake of naming consistency
+   - AsType(): convert data type between `float` and `int`
+   - ceil(): perform element-wise ceiling of the input
+   - concat(): concatenate two tensor
+   - index selector: e.g. tensor1[:,:,1:,1:]
+   - softmax(in, axis): allow to perform softmax on a axis on a multi-dimensional tensor
+
+  * 14 new operators are added into the autograd module: Gemm, GlobalAveragePool, ConstantOfShape, 
+    Dropout, ReduceSum, ReduceMean, Slice, Ceil, Split, Gather, Tile, NonZero, Cast, OneHot. 
+    Their unit tests are added as well.
+
+  * 14 new operators are added to sonnx module for both backend and frontend: 
+    [Gemm](https://github.com/onnx/onnx/blob/master/docs/Operators.md#Gemm), 
+    [GlobalAveragePool](https://github.com/onnx/onnx/blob/master/docs/Operators.md#GlobalAveragePool), 
+    [ConstantOfShape](https://github.com/onnx/onnx/blob/master/docs/Operators.md#ConstantOfShape), 
+    [Dropout](https://github.com/onnx/onnx/blob/master/docs/Operators.md#Dropout), 
+    [ReduceSum](https://github.com/onnx/onnx/blob/master/docs/Operators.md#ReduceSum), 
+    [ReduceMean](https://github.com/onnx/onnx/blob/master/docs/Operators.md#ReduceMean), 
+    [Slice](https://github.com/onnx/onnx/blob/master/docs/Operators.md#Slice), 
+    [Ceil](https://github.com/onnx/onnx/blob/master/docs/Operators.md#Ceil), 
+    [Split](https://github.com/onnx/onnx/blob/master/docs/Operators.md#Split), 
+    [Gather](https://github.com/onnx/onnx/blob/master/docs/Operators.md#Gather), 
+    [Tile](https://github.com/onnx/onnx/blob/master/docs/Operators.md#Tile), 
+    [NonZero](https://github.com/onnx/onnx/blob/master/docs/Operators.md#NonZero), 
+    [Cast](https://github.com/onnx/onnx/blob/master/docs/Operators.md#Cast), 
+    [OneHot](https://github.com/onnx/onnx/blob/master/docs/Operators.md#OneHot). 
+    Their tests are added as well.
+
+  * Some ONNX models are imported into SINGA, including 
+    [Bert-squad](https://github.com/onnx/models/tree/master/text/machine_comprehension/bert-squad), 
+    [Arcface](https://github.com/onnx/models/tree/master/vision/body_analysis/arcface), 
+    [FER+ Emotion](https://github.com/onnx/models/tree/master/vision/body_analysis/emotion_ferplus), 
+    [MobileNet](https://github.com/onnx/models/tree/master/vision/classification/mobilenet), 
+    [ResNet18](https://github.com/onnx/models/tree/master/vision/classification/resnet), 
+    [Tiny Yolov2](https://github.com/onnx/models/tree/master/vision/object_detection_segmentation/tiny_yolov2), 
+    [Vgg16](https://github.com/onnx/models/tree/master/vision/classification/vgg), and Mnist.
+
+  * Some operators now support [multidirectional broadcasting](https://github.com/onnx/onnx/blob/master/docs/Broadcasting.md#multidirectional-broadcasting), 
+    including Add, Sub, Mul, Div, Pow, PRelu, Gemm 
+
+  * [Distributed training with communication optimization]. [DistOpt](./python/singa/opt.py) 
+    has implemented multiple optimization techniques, including gradient sparsification, 
+    chunk transmission, and gradient compression.
+
+  * Computational graph construction at the CPP level. The operations submitted to the Device are buffered.
+    After analyzing the dependency, the computational graph is created, which is further analyzed for
+    speed and memory optimization. To enable this feature, use the [Module API](./python/singa/module.py).
+
+  * New website based on Docusaurus. The documentation files are moved to a separate repo [singa-doc](https://github.com/apache/singa-doc).
+    The static website files are stored at [singa-site](https://github.com/apache/singa-site).
+
+  * DNNL([Deep Neural Network Library](https://github.com/intel/mkl-dnn)), powered by Intel, 
+    is integrated into `model/operations/[batchnorm|pooling|convolution]`, 
+    the changes is opaque to the end users. The current version is dnnl v1.1 
+    which replaced previous integration of mkl-dnn v0.18. The framework could 
+    boost the performance of dl operations when executing on CPU. The dnnl dependency 
+    is installed through conda.
+
+  * Some Tensor APIs are marked as deprecated which could be replaced by broadcast, 
+    and it can support better on multi-dimensional operations. These APIs are
+    add_column(), add_row(), div_column(), div_row(), mult_column(), mult_row()
+
+  * Conv and Pooling are enhanced to support fine-grained padding like (2,3,2,3), 
+    and [SAME_UPPER, SAME_LOWER](https://github.com/onnx/onnx/blob/master/docs/Operators.md#Conv) 
+    pad mode and shape checking.
+
+  * Reconstruct soonx, 
+    - Support two types of weight value (Initializer and Constant Node); 
+    - For some operators (BatchNorm, Reshape, Clip, Slice, Gather, Tile, OneHot), 
+      move some inputs to its attributes; 
+    - Define and implement the type conversion map. 
+
+------------------------------------------------------------------------
+Release Notes - SINGA - Version singa-incubating-2.0.0
+
+SINGA is a general distributed deep learning platform for training big deep
+learning models over large datasets.
+
+This release includes following features:
+
+  * Core components
+    * [SINGA-434] Support tensor broadcasting
+    * [SINGA-370] Improvement to tensor reshape and various misc. changes related to SINGA-341 and 351
+
+  * Model components
+    * [SINGA-333] Add support for Open Neural Network Exchange (ONNX) format
+    * [SINGA-385] Add new python module for optimizers
+    * [SINGA-394] Improve the CPP operations via Intel MKL DNN lib
+    * [SINGA-425] Add 3 operators , Abs(), Exp() and leakyrelu(), for Autograd 
+    * [SINGA-410] Add two function, set_params() and get_params(), for Autograd Layer class
+    * [SINGA-383] Add Separable Convolution for autograd
+    * [SINGA-388] Develop some RNN layers by calling tiny operations like matmul, addbias.
+    * [SINGA-382] Implement concat operation for autograd    
+    * [SINGA-378] Implement maxpooling operation and its related functions for autograd
+    * [SINGA-379] Implement batchnorm operation and its related functions for autograd
+
+  * Utility functions and CI
+    * [SINGA-432] Update depdent lib versions in conda-build config
+    * [SINGA-429] Update docker images for latest cuda and cudnn
+    * [SINGA-428] Move Docker images under Apache user name
+
+  * Documentation and usability
+    * [SINGA-395] Add documentation for autograd APIs
+    * [SINGA-344] Add a GAN example
+    * [SINGA-390] Update installation.md
+    * [SINGA-384] Implement ResNet using autograd API
+    * [SINGA-352] Complete SINGA documentation in Chinese version
+      
+  * Bugs fixed
+    * [SINGA-431] Unit Test failed - Tensor Transpose
+    * [SINGA-422] ModuleNotFoundError: No module named "_singa_wrap"
+    * [SINGA-418] Unsupportive type 'long' in python3.  
+    * [SINGA-409] Basic `singa-cpu` import throws error
+    * [SINGA-408] Unsupportive function definition in python3
+    * [SINGA-380] Fix bugs from Reshape  
+
+---------------------------------------------------------------
+Release Notes - SINGA - Version singa-incubating-1.2.0
+
+SINGA is a general distributed deep learning platform for training big deep
+learning models over large datasets.
+
+This release includes following features:
+
+  * Core components
+      * [SINGA-290] Upgrade to Python 3
+      * [SINGA-341] Added stride functionality to tensors for CPP
+      * [SINGA-347] Create a function that supports einsum
+      * [SINGA-351] Added stride support and cudnn codes to cuda
+
+  * Model components
+      * [SINGA-300] Add residual networks for imagenet classification
+      * [SINGA-312] Rename layer parameters
+      * [SINGA-313] Add L2 norm layer
+      * [SINGA-315] Reduce memory footprint by Python generator for parameter
+      * [SINGA-316] Add SigmoidCrossEntropy
+      * [SINGA-324] Extend RNN layer to accept variant seq length across batches
+      * [SINGA-326] Add Inception V4 for ImageNet classification
+      * [SINGA-328] Add VGG models for ImageNet classification
+      * [SINGA-329] Support layer freezing during training (fine-tuning)
+      * [SINGA-346] Update cudnn from V5 to V7
+      * [SINGA-349] Create layer operations for autograd
+      * [SINGA-363] Add DenseNet for Imagenet classification
+
+  * Utility functions and CI
+      * [SINGA-274] Improve Debian packaging with CPack
+      * [SINGA-303] Create conda packages
+      * [SINGA-337] Add test cases for code
+      * [SINGA-348] Support autograd MLP Example
+      * [SINGA-345] Update Jenkins and fix bugs in compliation
+      * [SINGA-354] Update travis scripts to use conda-build for all platforms
+      * [SINGA-358] Consolidated RUN steps and cleaned caches in Docker containers
+      * [SINGA-359] Create alias for conda packages
+
+  * Documentation and usability
+      * [SINGA-223] Fix side navigation menu in the website
+      * [SINGA-294] Add instructions to run CUDA unit tests on Windows
+      * [SINGA-305] Add jupyter notebooks for SINGA V1 tutorial
+      * [SINGA-319] Fix link errors on the index page
+      * [SINGA-352] Complete SINGA documentation in Chinese version
+      * [SINGA-361] Add git instructions for contributors and committers
+
+  * Bugs fixed
+      * [SINGA-330] fix openblas building on i7 7700k
+      * [SINGA-331] Fix the bug of tensor division operation
+      * [SINGA-350] Error from python3 test
+      * [SINGA-356] Error using travis tool to build SINGA on mac os
+      * [SINGA-363] Fix some bugs in imagenet examples
+      * [SINGA-368] Fix the bug in Cifar10 examples
+      * [SINGA-369] the errors of examples in testing
+
+---------------------------------------------------------------
+Release Notes - SINGA - Version singa-incubating-1.1.0
+
+SINGA is a general distributed deep learning platform for training big deep learning models over large datasets.
+
+This release includes following features:
+
+  * Core components
+      * [SINGA-296] Add sign and to_host function for pysinga tensor module
+
+  * Model components
+      * [SINGA-254] Implement Adam for V1
+      * [SINGA-264] Extend the FeedForwardNet to accept multiple inputs
+      * [SINGA-267] Add spatial mode in batch normalization layer
+      * [SINGA-271] Add Concat and Slice layers
+      * [SINGA-275] Add Cross Entropy Loss for multiple labels
+      * [SINGA-278] Convert trained caffe parameters to singa
+      * [SINGA-287] Add memory size check for cudnn convolution
+
+  * Utility functions and CI
+      * [SINGA-242] Compile all source files into a single library.
+      * [SINGA-244] Separating swig interface and python binding files
+      * [SINGA-246] Imgtool for image augmentation
+      * [SINGA-247] Add windows support for singa
+      * [SINGA-251] Implement image loader for pysinga
+      * [SINGA-252] Use the snapshot methods to dump and load models for pysinga
+      * [SINGA-255] Compile mandatory depedent libaries together with SINGA code
+      * [SINGA-259] Add maven pom file for building java classes
+      * [SINGA-261] Add version ID into the checkpoint files
+      * [SINGA-266] Add Rafiki python toolkits
+      * [SINGA-273] Improve license and contributions
+      * [SINGA-284] Add python unittest into Jenkins and link static libs into whl file
+      * [SINGA-280] Jenkins CI support
+      * [SINGA-288] Publish wheel of PySINGA generated by Jenkins to public servers
+
+  * Documentation and usability
+      * [SINGA-263] Create Amazon Machine Image
+      * [SINGA-268] Add IPython notebooks to the documentation
+      * [SINGA-276] Create docker images
+      * [SINGA-289] Update SINGA website automatically using Jenkins
+      * [SINGA-295] Add an example of image classification using GoogleNet
+
+  * Bugs fixed
+      * [SINGA-245] float as the first operand can not multiply with a tensor object
+      * [SINGA-293] Bug from compiling PySINGA on Mac OS X with multiple version of Python
+
+---------------------------------------------------------------
+Release Notes - SINGA - Version singa-incubating-1.0.0
+
+SINGA is a general distributed deep learning platform for training big deep learning models over large datasets.
+
+This release includes following features:
+
+  * Core abstractions including Tensor and Device
+      * [SINGA-207]  Update Tensor functions for matrices
+      * [SINGA-205]  Enable slice and concatenate operations for Tensor objects
+      * [SINGA-197]  Add CNMem as a submodule in lib/
+      * [SINGA-196]  Rename class Blob to Block
+      * [SINGA-194]  Add a Platform singleton
+      * [SINGA-175]  Add memory management APIs and implement a subclass using CNMeM
+      * [SINGA-173]  OpenCL Implementation
+      * [SINGA-171]  Create CppDevice and CudaDevice
+      * [SINGA-168]  Implement Cpp Math functions APIs
+      * [SINGA-162]  Overview of features for V1.x
+      * [SINGA-165]  Add cross-platform timer API to singa
+      * [SINGA-167]  Add Tensor Math function APIs
+      * [SINGA-166]  light built-in logging for making glog optional
+      * [SINGA-164]  Add the base Tensor class
+
+
+  * IO components for file read/write, network and data pre-processing
+      * [SINGA-233]  New communication interface
+      * [SINGA-215]  Implement Image Transformation for Image Pre-processing
+      * [SINGA-214]  Add LMDBReader and LMDBWriter for LMDB
+      * [SINGA-213]  Implement Encoder and Decoder for CSV
+      * [SINGA-211]  Add TextFileReader and TextFileWriter for CSV files
+      * [SINGA-210]  Enable checkpoint and resume for v1.0
+      * [SINGA-208]  Add DataIter base class and a simple implementation
+      * [SINGA-203]  Add OpenCV detection for cmake compilation
+      * [SINGA-202]  Add reader and writer for binary file
+      * [SINGA-200]  Implement Encoder and Decoder for data pre-processing
+
+
+
+  * Module components including layer classes, training algorithms and Python binding
+      * [SINGA-235]  Unify the engines for cudnn and singa layers
+      * [SINGA-230]  OpenCL Convolution layer and Pooling layer
+      * [SINGA-222]  Fixed bugs in IO
+      * [SINGA-218]  Implementation for RNN CUDNN version
+      * [SINGA-204]  Support the training of feed-forward neural nets
+      * [SINGA-199]  Implement Python classes for SGD optimizers
+      * [SINGA-198]  Change Layer::Setup API to include input Tensor shapes
+      * [SINGA-193]  Add Python layers
+      * [SINGA-192]  Implement optimization algorithms for SINGA v1 (nesterove, adagrad, rmsprop)
+      * [SINGA-191]  Add "autotune" for CudnnConvolution Layer
+      * [SINGA-190]  Add prelu layer and flatten layer
+      * [SINGA-189]  Generate python outputs of proto files
+      * [SINGA-188]  Add Dense layer
+      * [SINGA-187]  Add popular parameter initialization methods
+      * [SINGA-186]  Create Python Tensor class
+      * [SINGA-184]  Add Cross Entropy loss computation
+      * [SINGA-183]  Add the base classes for optimizer, constraint and regularizer
+      * [SINGA-180]  Add Activation layer and Softmax layer
+      * [SINGA-178]  Add Convolution layer and Pooling layer
+      * [SINGA-176]  Add loss and metric base classes
+      * [SINGA-174]  Add Batch Normalization layer and Local Response Nomalization layer.
+      * [SINGA-170]  Add Dropout layer and CudnnDropout layer.
+      * [SINGA-169]  Add base Layer class for V1.0
+
+
+  * Examples
+      * [SINGA-232]  Alexnet on Imagenet
+      * [SINGA-231]  Batchnormlized VGG model for cifar-10
+      * [SINGA-228]  Add Cpp Version of Convolution and Pooling layer
+      * [SINGA-227]  Add Split and Merge Layer and add ResNet Implementation
+
+  * Documentation
+      * [SINGA-239]  Transfer documentation files of v0.3.0 to github
+      * [SINGA-238]  RBM on mnist
+      * [SINGA-225]  Documentation for installation and Cifar10 example
+      * [SINGA-223]  Use Sphinx to create the website
+
+  * Tools for compilation and some utility code
+      * [SINGA-229]  Complete install targets
+      * [SINGA-221]  Support for Travis-CI
+      * [SINGA-217]  build python package with setup.py
+      * [SINGA-216]  add jenkins for CI support
+      * [SINGA-212]  Disable the compilation of libcnmem if USE_CUDA is OFF
+      * [SINGA-195]  Channel for sending training statistics
+      * [SINGA-185]  Add CBLAS and GLOG detection for singav1
+      * [SINGA-181]  Add NVCC supporting for .cu files
+      * [SINGA-177]  Add fully cmake supporting for the compilation of singa_v1
+      * [SINGA-172]  Add CMake supporting for Cuda and Cudnn libs
+
+----------------------------------------------------------
+Release Notes - SINGA - Version singa-incubating-0.3.0
+
+SINGA is a general distributed deep learning platform for training big deep learning models over large datasets.
+
+This release includes following features:
+
+  * GPU Support
+    * [SINGA-131] Implement and optimize hybrid training using both CPU and GPU
+    * [SINGA-136] Support cuDNN v4
+    * [SINGA-134] Extend SINGA to run over a GPU cluster
+    * [SINGA-157] Change the priority of cudnn library and install libsingagpu.so
+
+  * Remove Dependencies
+    * [SINGA-156] Remove the dependency on ZMQ for single process training
+    * [SINGA-155] Remove zookeeper for single-process training
+
+  * Python Binding
+    * [SINGA-126] Python Binding for Interactive Training
+
+  * Other Improvements
+    * [SINGA-80] New Blob Level and Address Level Math Operation Interface
+    * [SINGA-130] Data Prefetching
+    * [SINGA-145] New SGD based optimization Updaters: AdaDelta, Adam, AdamMax
+
+  * Bugs Fixed
+    * [SINGA-148] Race condition between Worker threads and Driver
+    * [SINGA-150] Mesos Docker container failed
+    * [SIGNA-141] Undesired Hash collision when locating process id to worker…
+    * [SINGA-149] Docker build fail
+    * [SINGA-143] The compilation cannot detect libsingagpu.so file
+
+
+-----------------------------------------
+Release Notes - SINGA - Version singa-incubating-0.2.0
+
+SINGA is a general distributed deep learning platform for training big deep learning models over large datasets. It is
+designed with an intuitive programming model based on the layer abstraction. SINGA supports a wide variety of popular
+deep learning models.
+
+This release includes following features:
+
+  * Programming model
+    * [SINGA-80] New Blob Level and Address Level Math Operation Interface
+    * [SINGA-82] Refactor input layers using data store abstraction
+    * [SINGA-87] Replace exclude field to include field for layer configuration
+    * [SINGA-110] Add Layer member datavec_ and gradvec_
+    * [SINGA-120] Implemented GRU and BPTT (BPTTWorker)
+
+  * Neuralnet layers
+    * [SINGA-91] Add SoftmaxLayer and ArgSortLayer
+    * [SINGA-106] Add dummy layer for test purpose
+    * [SINGA-120] Implemented GRU and BPTT (GRULayer and OneHotLayer)
+
+  * GPU training support
+    * [SINGA-100] Implement layers using CUDNN for GPU training
+    * [SINGA-104] Add Context Class
+    * [SINGA-105] Update GUN make files for compiling cuda related code
+    * [SINGA-98] Add Support for AlexNet ImageNet Classification Model
+
+
+  * Model/Hybrid partition
+    * [SINGA-109] Refine bridge layers
+    * [SINGA-111] Add slice, concate and split layers
+    * [SINGA-113] Model/Hybrid Partition Support
+
+  * Python binding
+    * [SINGA-108] Add Python wrapper to singa
+
+  * Predict-only mode
+    * [SINGA-85] Add functions for extracting features and test new data
+
+  * Integrate with third-party tools
+    * [SINGA-11] Start SINGA on Apache Mesos
+    * [SINGA-78] Use Doxygen to generate documentation
+    * [SINGA-89] Add Docker support
+
+  * Unit test
+    * [SINGA-95] Add make test after building
+
+  * Other improvment
+    * [SINGA-84] Header Files Rearrange
+    * [SINGA-93] Remove the asterisk in the log tcp://169.254.12.152:*:49152
+    * [SINGA-94] Move call to google::InitGoogleLogging() from Driver::Init() to main()
+    * [SINGA-96] Add Momentum to Cifar10 Example
+    * [SINGA-101] Add ll (ls -l) command in .bashrc file when using docker
+    * [SINGA-114] Remove short logs in tmp directory
+    * [SINGA-115] Print layer debug information in the neural net graph file
+    * [SINGA-118] Make protobuf LayerType field id easy to assign
+    * [SIGNA-97] Add HDFS Store
+
+  * Bugs fixed
+    * [SINGA-85] Fix compilation errors in examples
+    * [SINGA-90] Miscellaneous trivial bug fixes
+    * [SINGA-107] Error from loading pre-trained params for training stacked RBMs
+    * [SINGA-116] Fix a bug in InnerProductLayer caused by weight matrix sharing
+
+-----------------------------------------
+
+Features included in singa-incubating-0.1.0:
+
+  * Job management
+    * [SINGA-3] Use Zookeeper to check stopping (finish) time of the system
+    * [SINGA-16] Runtime Process id Management
+    * [SINGA-25] Setup glog output path
+    * [SINGA-26] Run distributed training in a single command
+    * [SINGA-30] Enhance easy-to-use feature and support concurrent jobs
+    * [SINGA-33] Automatically launch a number of processes in the cluster
+    * [SINGA-34] Support external zookeeper service
+    * [SINGA-38] Support concurrent jobs
+    * [SINGA-39] Avoid ssh in scripts for single node environment
+    * [SINGA-43] Remove Job-related output from workspace
+    * [SINGA-56] No automatic launching of zookeeper service
+    * [SINGA-73] Refine the selection of available hosts from host list
+
+  * Installation with GNU Auto tool
+    * [SINGA-4] Refine thirdparty-dependency installation
+    * [SINGA-13] Separate intermediate files of compilation from source files
+    * [SINGA-17] Add root permission within thirdparty/install.
+    * [SINGA-27] Generate python modules for proto objects
+    * [SINGA-53] Add lmdb compiling options
+    * [SINGA-62] Remove building scrips and auxiliary files
+    * [SINGA-67] Add singatest into build targets
+
+  * Distributed training
+    * [SINGA-7] Implement shared memory Hogwild algorithm
+    * [SINGA-8] Implement distributed Hogwild
+    * [SINGA-19] Slice large Param objects for load-balance
+    * [SINGA-29] Update NeuralNet class to enable layer partition type customization
+    * [SINGA-24] Implement Downpour training framework
+    * [SINGA-32] Implement AllReduce training framework
+    * [SINGA-57] Improve Distributed Hogwild
+
+  * Training algorithms for different model categories
+    * [SINGA-9] Add Support for Restricted Boltzman Machine (RBM) model
+    * [SINGA-10] Add Support for Recurrent Neural Networks (RNN)
+
+  * Checkpoint and restore
+    * [SINGA-12] Support Checkpoint and Restore
+
+  * Unit test
+    * [SINGA-64] Add the test module for utils/common
+
+  * Programming model
+    * [SINGA-36] Refactor job configuration, driver program and scripts
+    * [SINGA-37] Enable users to set parameter sharing in model configuration
+    * [SINGA-54] Refactor job configuration to move fields in ModelProto out
+    * [SINGA-55] Refactor main.cc and singa.h
+    * [SINGA-61] Support user defined classes
+    * [SINGA-65] Add an example of writing user-defined layers
+
+  * Other features
+    * [SINGA-6] Implement thread-safe singleton
+    * [SINGA-18] Update API for displaying performance metric
+    * [SINGA-77] Integrate with Apache RAT
+
+Some bugs are fixed during the development of this release
+  * [SINGA-2] Check failed: zsock_connect
+  * [SINGA-5] Server early terminate when zookeeper singa folder is not initially empty
+  * [SINGA-15] Fixg a bug from ConnectStub function which gets stuck for connecting layer_dealer_
+  * [SINGA-22] Cannot find openblas library when it is installed in default path
+  * [SINGA-23] Libtool version mismatch error.
+  * [SINGA-28] Fix a bug from topology sort of Graph
+  * [SINGA-42] Issue when loading checkpoints
+  * [SINGA-44] A bug when reseting metric values
+  * [SINGA-46] Fix a bug in updater.cc to scale the gradients
+  * [SINGA-47] Fix a bug in data layers that leads to out-of-memory when group size is too large
+  * [SINGA-48] Fix a bug in trainer.cc that assigns the same NeuralNet instance to workers from diff groups
+  * [SINGA-49] Fix a bug in HandlePutMsg func that sets param fields to invalid values
+  * [SINGA-66] Fix bugs in Worker::RunOneBatch function and ClusterProto
+  * [SINGA-79] Fix bug in singatool that can not parse -conf flag
+
+Features planned for the next release
+  * [SINGA-11] Start SINGA using Mesos
+  * [SINGA-31] Extend Blob to support xpu (cpu or gpu)
+  * [SINGA-35] Add random number generators
+  * [SINGA-40] Support sparse Param update
+  * [SINGA-41] Support single node single GPU training
